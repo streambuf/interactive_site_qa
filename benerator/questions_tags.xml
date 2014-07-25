@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup xmlns="http://databene.org/benerator/0.9.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://databene.org/benerator/0.9.1 benerator-0.9.1.xsd"
+        defaultEncoding="UTF-8"
+        defaultDataset="US"
+        defaultLocale="us"
+        defaultLineSeparator="\n">
+
+    <import domains="person"/>
+    <import platforms="db" />
+    
+    <database id="db" url="jdbc:mysql://127.0.0.1:3306/ask_db" driver="com.mysql.jdbc.Driver" user="askmoiseev" password="drovosek"  catalog="ask_db" />
+    
+
+    <generate type="ask_question_tags" count="10000" consumer="db,ConsoleExporter">
+		
+		<variable name="random_tag" type="int" min="1" max="10000" distribution="random" />
+		<attribute name="tag_id" script="random_tag"/>
+		
+		<variable name="random_question" type="int" min="1" max="100000" distribution="random" />
+		<attribute name="question_id" script="random_question"/>
+		
+
+    </generate>
+    
+</setup>

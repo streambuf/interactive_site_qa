@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup xmlns="http://databene.org/benerator/0.9.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://databene.org/benerator/0.9.1 benerator-0.9.1.xsd"
+        defaultEncoding="UTF-8"
+        defaultDataset="US"
+        defaultLocale="us"
+        defaultLineSeparator="\n">
+
+    <import domains="person"/>
+    <import platforms="db" />
+    
+    <database id="db" url="jdbc:mysql://127.0.0.1:3306/ask_db" driver="com.mysql.jdbc.Driver" user="askmoiseev" password="drovosek"  catalog="ask_db" />
+    
+	
+	<bean id="date_creation" class="DateTimeGenerator">
+        <property name='minDate'          value='2013-01-01'/>
+        <property name='maxDate'          value='2013-05-20'/>
+        <property name='dateGranularity'  value='00-00-02'  />
+        <property name='dateDistribution' value='random'    />
+        <property name='minTime'          value='00:00:00'  />
+        <property name='maxTime'          value='23:59:00'  />
+        <property name='timeGranularity'  value='00:00:01'  />
+        <property name='timeDistribution' value='random'    />
+    </bean>
+    
+    
+    <generate type="ask_question" count="100000" consumer="db,ConsoleExporter">
+		<variable name="var" type="int" min="1" max="100000" distribution="increment" />
+		<attribute name="title" script="'Рандомный вопрос №' + var + '?'"/>
+		<attribute name="content_question" script="'Помогите решить проблему №' + var + '.'"/>
+		<variable name="random_user" type="int" min="1" max="10000" distribution="random" />
+		<attribute name="id_user" script="random_user"/>
+		<attribute name="creation_date_question" type="timestamp" generator="date_creation"/>
+		<variable name="random_rating" type="int" min="-50" max="900" distribution="random" />
+		<attribute name="question_rating" script="random_rating"/>
+		<attribute name="count_answers" script="'0'"/>
+
+    </generate>
+    
+</setup>
